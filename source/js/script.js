@@ -12,8 +12,6 @@ const exampleRangeBarInner = document.querySelector('.example__range-bar-inner')
 
 
 mainHeader.classList.remove('main-header--nojs');
-console.log(window.innerWidth);
-console.log(document.documentElement.clientWidth);
 
 if (window.innerWidth < 768) {
   mainNav.classList.remove('main-nav--opened');
@@ -42,25 +40,9 @@ if (window.innerWidth < 768) {
     imgFatCat.classList.remove('example__range-img-fat--hidden');
     exampleRangeBarInner.style.marginLeft = '6px';
   })
-
 }
-// else  {
-//   nextButton.addEventListener('click', () => {
-//     imgSkinnyCat.classList.remove('example__range-img-skinny--hidden');
-//     imgSkinnyCat.classList.add('example__range-img-skinny--visible');
-//     imgFatCat.classList.remove('example__range-img-fat--visible');
-//     imgFatCat.classList.add('example__range-img-fat--hidden');
-//   })
-//   prevButton.addEventListener('click', () => {
-//     imgSkinnyCat.classList.remove('example__range-img-skinny--visible');
-//     imgSkinnyCat.classList.add('example__range-img-skinny--hidden');
-//     imgFatCat.classList.remove('example__range-img-fat--hidden');
-//     imgFatCat.classList.add('example__range-img-fat--visible');
-//   })
-// }
 
-
-if (window.innerWidth >= 768) {
+if (window.innerWidth >= 768 && exampleRangeBar) {
   while (exampleRangeBar.firstChild) {
     exampleRangeBar.removeChild(exampleRangeBar.firstChild);
   }
@@ -76,15 +58,17 @@ if (window.innerWidth >= 768) {
   });
 
   exampleRangeBar.noUiSlider.on('update', function (values, handle) {
-    // console.log(values);
-    // console.log(handle);
-    console.log(values[handle]);
     const percentOfVisiblePartLeft = 16 + parseInt(values[handle], 10) * 5.92;
     const percentOfVisiblePartRight = 16 + 592 - parseInt(values[handle], 10) * 5.92;
     imgSkinnyCat.style.width = `${percentOfVisiblePartRight}px`;
     imgFatCat.style.width = `${percentOfVisiblePartLeft}px`;
 
-    console.log('percentOfVisiblePartLeft', percentOfVisiblePartLeft);
-    console.log('percentOfVisiblePartRight', percentOfVisiblePartRight);
   });
+
+  nextButton.addEventListener('click', () => {
+    exampleRangeBar.noUiSlider.set(['100']);
+  })
+  prevButton.addEventListener('click', () => {
+    exampleRangeBar.noUiSlider.set(['0']);
+  })
 }
